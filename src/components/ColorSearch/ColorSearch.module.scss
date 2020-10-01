@@ -1,0 +1,30 @@
+.Box {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: 50px;
+
+    h1,
+    h3 {
+        line-height: 100%;
+        margin: 12px;
+    }
+}
+
+.Searchbar {
+    width: 350px;
+    font-size: 150%;
+    text-align: center;
+    border: 1px solid #cacaca;
+    outline: none;
+    border-radius: 2px;
+    height: 50px;
+    padding-top: 12px;
+}
+
+@media (max-width: 440px) {
+    .Searchbar {
+        width: 300px;
+    }
+  }
