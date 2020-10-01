@@ -42,8 +42,6 @@ function App() {
     }
   }
 
-
-
   const handlerInput = event => {
     let userInput = event.target.value;
     setInput(userInput);
