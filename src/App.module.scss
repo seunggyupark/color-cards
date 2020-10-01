@@ -1,0 +1,13 @@
+.App {
+  display: flex;
+  min-height: 100vh;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 440px) {
+  .App {
+    justify-content: space-between;
+  }
+}
