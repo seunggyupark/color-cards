@@ -4,8 +4,6 @@ An app that returns complementary colors. Purpose is to practice retrieving data
 
 # Future Scope
 1. Footer
-
--- For practice --
 2. Pagination
 3. Share with social option
 4. User authentication
