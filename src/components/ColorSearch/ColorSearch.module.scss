@@ -1,9 +1,16 @@
+@import '../../scss/card.scss';
+
+.Card { 
+    @include defaultCard(); 
+    width: 200px;
+}
+
 .Box {
     width: 100%;
     display: flex;
     flex-flow: column;
     align-items: center;
-    margin: 50px;
+    margin: 25px;
 
     h1,
     h3 {
@@ -12,16 +19,39 @@
     }
 }
 
+.SearchbarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-62.5px);
+
+    select {
+        width: 125px;
+    }
+}
+
 .Searchbar {
     width: 350px;
     font-size: 150%;
-    text-align: center;
-    border: 1px solid #cacaca;
+}
+
+.Dropdown,
+.Searchbar {
     outline: none;
+    border: 1px solid #cacaca15;
     border-radius: 2px;
+    text-align: center;
     height: 50px;
     padding-top: 12px;
+    margin: 2px;
 }
+
+@media (max-width: 650px) {
+    .SearchbarContainer {
+        transform: translateX(0px);
+        flex-flow: column;
+    }
+  }
 
 @media (max-width: 440px) {
     .Searchbar {
