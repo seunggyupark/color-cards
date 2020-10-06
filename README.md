@@ -8,5 +8,7 @@ DEMO: https://color-car-7e6c6.web.app/
 # Future Scope
 1. Footer
 2. Loading screen with initial API call to prevent double render
+3. Add Unit Testing for practice
 3. Share with social option
 4. User authentication
+
