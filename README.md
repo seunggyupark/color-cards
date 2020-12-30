@@ -16,3 +16,4 @@ DEMO: https://color-car-7e6c6.web.app/
 7. Fix logos, etc, and get proper domain
 8. Move the handlers to their respective components instead of having it all in App.js
 
+note: Don't forget to update the firebase deployment
