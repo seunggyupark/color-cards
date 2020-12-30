@@ -4,6 +4,7 @@
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  transition: background-color ease 1.5s;
 }
 
 @media (max-width: 440px) {

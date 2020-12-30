@@ -1,8 +1,9 @@
 import React from 'react';
 import classes from './ColorSearch.module.scss';
 
-const ColorSearch = props => {
+import ColorGenerator from './ColorGenerator/ColorGenerator';
 
+const ColorSearch = props => {
     return (
         <div className={classes.Box}>
             <div style={{backgroundColor: props.hex}} className={classes.Card}>
@@ -29,6 +30,7 @@ const ColorSearch = props => {
                 value={props.input} 
                 onChange={props.changed} />
             </div>
+            <ColorGenerator />
         </div>
     )
 };
