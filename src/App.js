@@ -1,82 +1,26 @@
 import React, { useState } from 'react';
-import validator from 'validator';
-import axios from 'axios';
 import classes from './App.module.scss';
 
-import {color as initialColor} from './data/color.js'
+import { SelectionContext } from './shared/context/SelectionContext';
+import { usePagination } from './shared/hooks/pagination-hook';
+import { color as initialColor } from './shared/context/color';
+
 import ColorSearch from './components/ColorSearch/ColorSearch';
 import ColorCards from './components/ColorCards/ColorCards';
 import Pagination from './components/Pagination/Pagination';
 
 function App() {
-
   const [color, setColor] = useState(initialColor);
-  const [input, setInput] = useState("rgb(84, 215, 204)");
-  const [choice, setChoice] = useState("analogic-complement");
-  const [resultsPerPage, setResultsPerPage] = useState(3);
-  const [page, setPage] = useState(1);
-
-  const changeColor = (userInput, option) => {
-    let call = "";
-    userInput = userInput.replaceAll(' ', '');
-    if (validator.isHexColor(userInput)) {
-      userInput = userInput.replace('#', '');
-      call = `https://www.thecolorapi.com/scheme?hex=${userInput}&mode=${option}&count=15`;
-    } else if (validator.isRgbColor(userInput, false)) {
-      call = `https://www.thecolorapi.com/scheme?rgb=${userInput}&mode=${option}&count=15`;
-    }
-    if (call) {
-      axios.get(call)
-      .then(response => {
-        console.log(response.data);
-        setColor(response.data)
-      })
-    }
-  }
-
-  const handlerInput = event => {
-    let userInput = event.target.value;
-    setInput(userInput);
-    changeColor(userInput, choice);
-  }
-
-  const handlerChoiceInput = event => {
-    setChoice(event.target.value);
-    changeColor(input, event.target.value);
-  }
-
-  const handlerResultsPerPage = event => {
-    setResultsPerPage(parseInt(event.currentTarget.value));
-    setPage(1);
-  }
-
-  const handlerChangePage = event => {
-    setPage(parseInt(event.currentTarget.value));
-  }
-
-  const hex = color ? color.seed.hex.value : "#f9f9f9"
+  const { page, resultsPerPage, changePage, changeResult } = usePagination();
 
   return (
-      <div className={classes.App} style={{backgroundColor: hex + "90"}}>
-        <ColorSearch 
-          input={input}
-          changed={handlerInput}
-          name={color ? color.seed.name.value : "Alabaster"} 
-          hex={hex} 
-          rgb={color ? color.seed.rgb.value : "rgb(249,249,249)"}
-          changedChoice={handlerChoiceInput}/>
-        
-        <Pagination 
-          clickResults={handlerResultsPerPage}
-          selectedResult={resultsPerPage}
-          clickPage={handlerChangePage}
-          selectedPage={page}/>
-        
-        <ColorCards 
-          colors={color ? color.colors : null}
-          resultsPerPage={resultsPerPage}
-          page={page} />
+    <SelectionContext.Provider value={{ color, page, resultsPerPage }}>
+      <div className={classes.App} style={{backgroundColor: color.seed.hex.value + "90"}}>
+        <ColorSearch setColor={setColor} />
+        <Pagination changePage={changePage} changeResult={changeResult}/>
+        <ColorCards />
       </div>
+    </SelectionContext.Provider>
   );
 }
 
