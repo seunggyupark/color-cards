@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classes from './ColorCards.module.scss';
+
+import { SelectionContext } from '../../shared/context/SelectionContext';
+
 import ColorCard from './ColorCard/ColorCard';
 
-const ColorCards = props => {
-
+const ColorCards = () => {
+    const selection = useContext(SelectionContext)
     const renderColorCards = () => {
         const cards = [];
-        for (let i = 0; i < props.resultsPerPage; i++) {
-            const j = i + ((props.page - 1) * props.resultsPerPage);
+        for (let i = 0; i < selection.resultsPerPage; i++) {
+            const j = i + ((selection.page - 1) * selection.resultsPerPage);
             if (j >= 15) break;
             cards.push((
                 <ColorCard
                     key={j}
-                    name={props.colors ? props.colors[j].name.value : "Salmon"} 
-                    hex={props.colors ? props.colors[j].hex.value : "#FF9AA2"} 
-                    rgb={props.colors ? props.colors[j].rgb.value : "rgb(255, 154, 162)"} />
+                    name={selection.color.colors[j].name.value} 
+                    hex={selection.color.colors[j].hex.value} 
+                    rgb={selection.color.colors[j].rgb.value} />
             ))
         }
         return cards;

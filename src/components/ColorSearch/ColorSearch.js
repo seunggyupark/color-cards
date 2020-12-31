@@ -1,18 +1,55 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import classes from './ColorSearch.module.scss';
+import validator from 'validator';
+import axios from 'axios';
 
+import { SelectionContext } from '../../shared/context/SelectionContext';
+
+import ColorCard from '../ColorCards/ColorCard/ColorCard';
 import ColorGenerator from './ColorGenerator/ColorGenerator';
 
 const ColorSearch = props => {
+    const selection = useContext(SelectionContext);
+    const [input, setInput] = useState("rgb(236, 126, 135)");
+    const [choice, setChoice] = useState("analogic-complement");
+
+    const changeColor = (userInput, option) => {
+        let call = "";
+        userInput = userInput.replaceAll(' ', '');
+        if (validator.isHexColor(userInput)) {
+            userInput = userInput.replace('#', '');
+            call = `https://www.thecolorapi.com/scheme?hex=${userInput}&mode=${option}&count=15`;
+        } else if (validator.isRgbColor(userInput, false)) {
+            call = `https://www.thecolorapi.com/scheme?rgb=${userInput}&mode=${option}&count=15`;
+        }
+        if (call) {
+            axios.get(call)
+            .then(response => {
+            console.log(response.data);
+            props.setColor(response.data)
+            })
+        }
+    }
+
+    const handlerInput = event => {
+        let userInput = event.target.value;
+        setInput(userInput);
+        changeColor(userInput, choice);
+    }
+
+    const handlerChoiceInput = event => {
+        setChoice(event.target.value);
+        changeColor(input, event.target.value);
+    }
+
     return (
         <div className={classes.Box}>
-            <div style={{backgroundColor: props.hex}} className={classes.Card}>
-                <h1>{props.name}</h1>
-                <h3>{props.rgb}</h3>
-                <h3>{props.hex}</h3>
-            </div>
+            <ColorCard 
+                hex={selection.color.seed.hex.value}
+                name={selection.color.seed.name.value}
+                rgb={selection.color.seed.rgb.value} />
             <div className={classes.SearchbarContainer}>
-                <select defaultValue="analogic-complement" className={classes.Dropdown} onChange={props.changedChoice}>
+                <select defaultValue="analogic-complement" className={classes.Dropdown} onChange={handlerChoiceInput}>
                     <option value="monochrome">monochrome</option>
                     <option value="monochrome-dark">monochrome-dark</option>
                     <option value="monochrome-light">monochrome-light</option>
@@ -27,8 +64,7 @@ const ColorSearch = props => {
                 type="text" spellCheck="false" 
                 autoFocus 
                 placeholder="rgb or hex #" 
-                value={props.input} 
-                onChange={props.changed} />
+                onChange={handlerInput} />
             </div>
             <ColorGenerator />
         </div>
