@@ -42,6 +42,16 @@ const ColorSearch = props => {
         changeColor(input, event.target.value);
     }
 
+    const handlerColorGenerator = () => {
+        const getRandomInt = max => {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+        
+        const randomRGB = `rgb(${getRandomInt(256)},${getRandomInt(256)},${getRandomInt(256)})`
+        setInput(randomRGB);
+        changeColor(randomRGB, choice);
+    }
+
     return (
         <div className={classes.Box}>
             <ColorCard 
@@ -64,9 +74,10 @@ const ColorSearch = props => {
                 type="text" spellCheck="false" 
                 autoFocus 
                 placeholder="rgb or hex #" 
-                onChange={handlerInput} />
+                onChange={handlerInput}
+                value={input} />
+                <ColorGenerator colorGeneratorHandler={handlerColorGenerator} />
             </div>
-            <ColorGenerator />
         </div>
     )
 };

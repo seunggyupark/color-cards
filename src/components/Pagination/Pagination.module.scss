@@ -8,6 +8,11 @@
         display: inline-block;
         margin: 6px;
     }
+
+    button:active,
+    button:hover {
+        border-bottom: 2px #cacaca solid;
+    }
 }
 
 button {
@@ -20,12 +25,8 @@ button {
     border: 2px transparent;
 }
 
-.Selected {
-    border-bottom: 2px #cacaca solid;
-}
 
-button:active,
-button:hover {
+.Selected {
     border-bottom: 2px #cacaca solid;
 }
 
